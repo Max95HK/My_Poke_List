@@ -1,0 +1,39 @@
+{
+  "name": "my-poke-list",
+  "scripts": {
+    "server": "bun run --hot server/index.ts",
+    "client": "cd frontend && npm run dev",
+    "dev": "concurrently \"bun run server\" \"bun run client\"",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down -v",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx --env-file=.env server/db/seeds/index.ts",
+    "format:write": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.8.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.18",
+    "pg": "^8.20.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@types/bun": "latest",
+    "@types/pg": "^8.20.0",
+    "concurrently": "^9.2.1",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-drizzle": "^0.2.3",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.3",
+    "tsx": "^4.22.0",
+    "typescript-eslint": "^8.59.3"
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:17.5
+    restart: unless-stopped
+    container_name: poke_list
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=pokepassword
+      - POSTGRES_USER=pokeuser
+      - POSTGRES_DB=pokedb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - pokelist_network
+
+networks:
+  pokelist_network:
+    driver: bridge
+
+volumes:
+  postgres-data:
