@@ -5,6 +5,7 @@ import PokeFilter from "@/components/poke-filter";
 const Home = () => {
   const {
     params,
+    searchInput,
     currentPage,
     resetParams,
     setGeneration,
@@ -24,6 +25,7 @@ const Home = () => {
     <div>
       <PokeFilter
         params={params}
+        searchInput={searchInput}
         onSearchChange={setSearch}
         onGenerationChange={setGeneration}
         onTypeChange={setType}
@@ -33,7 +35,7 @@ const Home = () => {
       />
 
       <div
-        className={`${isPlaceholderData ? "opacity-50 pointer-events-auto" : ""}`}
+        className={`${isPlaceholderData ? "opacity-50 pointer-events-none" : ""}`}
       >
         {isLoading ? (
           <div>Caricamento...</div>

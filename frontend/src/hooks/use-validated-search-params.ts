@@ -13,18 +13,20 @@ const useValidateSearchParams = <T extends Record<string, unknown>>(
 
   const params = schema.parse(parseSearchParams(searchParam));
 
-  const setParams = useCallback(
-    (paramsUpdates: Partial<T>) => {
-      setSearchParams((prevParams) => {
-        const nextParams = {
-          ...parseSearchParams(prevParams),
-          ...paramsUpdates,
-        };
-        return serializeParams(nextParams);
-      });
-    },
-    [setSearchParams],
-  );
+const setParams = useCallback(
+  (paramsUpdates: Partial<T>) => {
+    console.log("setParams called with:", paramsUpdates);
+    setSearchParams((prevParams) => {
+      const nextParams = {
+        ...parseSearchParams(prevParams),
+        ...paramsUpdates,
+      };
+      console.log("nextParams:", nextParams);
+      return serializeParams(nextParams);
+    });
+  },
+  [setSearchParams],
+);
 
   const resetParams = useCallback(() => setSearchParams({}), [setSearchParams]);
 

@@ -1,7 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-
 import type { PokemonParams } from "@/shared/types/pokemon";
-import useDebounce from "@/hooks/use-debounce";
 import useRootLoaderData from "@/hooks/use-root-loader-data";
 
 const SORT_OPTIONS: { label: string; value: PokemonParams["sortBy"] }[] = [
@@ -17,6 +14,7 @@ const SORT_OPTIONS: { label: string; value: PokemonParams["sortBy"] }[] = [
 
 type PokeFilterProps = {
   params: PokemonParams;
+  searchInput: string;
   onSearchChange: (value: string) => void;
   onTypeChange: (value: string | undefined) => void;
   onGenerationChange: (value: number | undefined) => void;
@@ -27,6 +25,7 @@ type PokeFilterProps = {
 
 const PokeFilter = ({
   params,
+  searchInput,
   onGenerationChange,
   onOrderChange,
   onReset,
@@ -35,18 +34,6 @@ const PokeFilter = ({
   onTypeChange,
 }: PokeFilterProps) => {
   const { types, generations } = useRootLoaderData();
-  const [searchValue, setSearchValue] = useState(params.search ?? "");
-  const debouncedSearch = useDebounce(searchValue, 300);
-
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    onSearchChange(debouncedSearch);
-  }, [debouncedSearch, onSearchChange]);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -55,8 +42,8 @@ const PokeFilter = ({
         <input
           id="search"
           type="text"
-          value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value)}
+          value={searchInput}
+          onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Cerca pokémon..."
         />
       </div>
@@ -66,13 +53,11 @@ const PokeFilter = ({
         <select
           id="type"
           value={params.type ?? ""}
-          onChange={(event) => onTypeChange(event.target.value || undefined)}
+          onChange={(e) => onTypeChange(e.target.value || undefined)}
         >
           <option value="">Tutti i tipi</option>
           {types.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
+            <option key={type} value={type}>{type}</option>
           ))}
         </select>
       </div>
@@ -82,17 +67,11 @@ const PokeFilter = ({
         <select
           id="generation"
           value={params.generation ?? ""}
-          onChange={(e) =>
-            onGenerationChange(
-              e.target.value ? Number(e.target.value) : undefined,
-            )
-          }
+          onChange={(e) => onGenerationChange(e.target.value ? Number(e.target.value) : undefined)}
         >
           <option value="">Tutte le generazioni</option>
           {generations.map((gen) => (
-            <option key={gen.id} value={gen.id}>
-              {gen.region}
-            </option>
+            <option key={gen.id} value={gen.id}>{gen.region}</option>
           ))}
         </select>
       </div>
@@ -102,14 +81,10 @@ const PokeFilter = ({
         <select
           id="sortBy"
           value={params.sortBy}
-          onChange={(e) =>
-            onSortByChange(e.target.value as PokemonParams["sortBy"])
-          }
+          onChange={(e) => onSortByChange(e.target.value as PokemonParams["sortBy"])}
         >
           {SORT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
       </div>
@@ -119,9 +94,7 @@ const PokeFilter = ({
         <select
           id="order"
           value={params.order}
-          onChange={(e) =>
-            onOrderChange(e.target.value as PokemonParams["order"])
-          }
+          onChange={(e) => onOrderChange(e.target.value as PokemonParams["order"])}
         >
           <option value="asc">Crescente</option>
           <option value="desc">Decrescente</option>
