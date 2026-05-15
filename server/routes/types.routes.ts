@@ -6,7 +6,7 @@ import { db } from "@/db/index";
 const typeRouter = new Hono().get("/", async (c) => {
   const result = await db.execute(sql`
     SELECT DISTINCT elem->'type'->>'name' AS name
-    FROM pokemonTable, jsonb_array_elements(types) AS elem
+    FROM pokemon, jsonb_array_elements(types) AS elem
     ORDER BY name ASC
   `);
 

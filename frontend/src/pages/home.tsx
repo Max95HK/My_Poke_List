@@ -1,41 +1,59 @@
-/**
- * Node modules
- */
-import { useState } from 'react';
-
-/**
- * Hooks
- */
-import usePokemonList from '@/hooks/use-pokemon-list';
+import usePokemonFilter from "@/hooks/use-pokemon-filter";
+import usePokemonList from "@/hooks/use-pokemon-list";
+import PokeFilter from "@/components/poke-filter";
 
 const Home = () => {
-  const [page, setPage] = useState(1);
+  const {
+    params,
+    currentPage,
+    resetParams,
+    setGeneration,
+    setOrder,
+    setPage,
+    setSearch,
+    setSortBy,
+    setType,
+  } = usePokemonFilter();
 
-  const { pokemonList, totalPages, isLoading } = usePokemonList(page);
+  const { pokemon, error, isLoading, isPlaceholderData, totalPages } =
+    usePokemonList(params);
+
+  if (error) return <div>Errore: {error.message}</div>;
+
   return (
     <div>
-      <h1 className='text-4xl font-semibold text-center mt-8 text-blue-950 shadow-[0_0_25px_-5px_rgba(30,58,138,0.6)] backdrop-blur-xs py-4 rounded-md max-w-3xl mx-auto'>
-        Scegli i tuoi Pokémon
-      </h1>
+      <PokeFilter
+        params={params}
+        onSearchChange={setSearch}
+        onGenerationChange={setGeneration}
+        onTypeChange={setType}
+        onOrderChange={setOrder}
+        onSortByChange={setSortBy}
+        onReset={resetParams}
+      />
 
-      <div>
-        {pokemonList.map((pokemon) => (
-          <div>{pokemon.name}</div>
-        ))}
+      <div
+        className={`${isPlaceholderData ? "opacity-50 pointer-events-auto" : ""}`}
+      >
+        {isLoading ? (
+          <div>Caricamento...</div>
+        ) : (
+          pokemon.map((poke) => <div key={poke.id}>{poke.name}</div>)
+        )}
       </div>
 
       <button
-        onClick={() => setPage((prevPage) => prevPage - 1)}
-        disabled={page === 1 || isLoading}
+        onClick={() => setPage(currentPage - 1)}
+        disabled={currentPage === 1 || isLoading}
       >
         precedente
       </button>
       <span>
-        {page} / {totalPages}
+        {currentPage} / {totalPages}
       </span>
       <button
-        onClick={() => setPage((prevPage) => prevPage + 1)}
-        disabled={page === totalPages || isLoading}
+        onClick={() => setPage(currentPage + 1)}
+        disabled={currentPage === totalPages || isLoading}
       >
         successiva
       </button>

@@ -24,8 +24,10 @@ export const pokemonQuerySchema = z.object({
   generation: z.coerce.number().optional(),
   search: z.string().optional(),
   sortBy: sortBySchema.optional().default("id"),
-  order: orderSchema.optional().default("desc"),
+  order: orderSchema.optional().default("asc"),
 });
+
+export type PokemonParams = z.infer<typeof pokemonQuerySchema>;
 
 export type PokemonType = {
   slot: number;

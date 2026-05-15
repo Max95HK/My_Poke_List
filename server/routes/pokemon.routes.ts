@@ -39,9 +39,9 @@ const buildOrderBy = (sortBy: SortField, order: Order) => {
   if (sortBy === "name") return orderDirection(pokemonTable.name);
 
   const statSubquery = sql<number>`(
-    SELECT (elem->>"base_stat")::int
+    SELECT (elem->>'base_stat')::int
     FROM jsonb_array_elements(${pokemonTable.stats}) AS elem
-    WHERE elem->"stat"->>"name" = ${sortBy}
+    WHERE elem->'stat'->>'name' = ${sortBy}
     LIMIT 1
   )`;
 
@@ -69,9 +69,9 @@ export const pokemonRouter = new Hono()
       const where = and(
         type
           ? sql`EXISTS (
-        SELECT 1 FROM jsonb_array_elements(${pokemonTable.types}) AS elem
-        WHERE elem->"type"->>"name" = ${type}
-    )`
+              SELECT 1 FROM jsonb_array_elements(${pokemonTable.types}) AS elem
+              WHERE elem->'type'->>'name' = ${type}
+            )`
           : undefined,
         generation ? eq(pokemonTable.generation_id, generation) : undefined,
         search ? ilike(pokemonTable.name, `%${search}%`) : undefined,
@@ -83,6 +83,10 @@ export const pokemonRouter = new Hono()
         db
           .select(POKEMON_SELECT)
           .from(pokemonTable)
+          .innerJoin(
+            generationsTable,
+            eq(pokemonTable.generation_id, generationsTable.id),
+          )
           .where(where)
           .orderBy(orderBy)
           .limit(limit)
