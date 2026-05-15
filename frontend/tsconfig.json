@@ -12,6 +12,7 @@
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
+      "@/server/*": ["../server/*"],
       "@/shared/*": ["../shared/*"],
       "@/*": ["./src/*"]
     }

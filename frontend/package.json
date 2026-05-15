@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-query": "^5.100.10",
+    "hono": "^4.12.18",
     "motion": "^12.38.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
