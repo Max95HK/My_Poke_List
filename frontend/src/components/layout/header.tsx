@@ -22,7 +22,7 @@ import {
  * Constant
  */
 import { navLinks } from '@/constants';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import PokeButton from '../poke-button';
 
 const Header = () => {
@@ -54,12 +54,14 @@ const Header = () => {
       <header className='fixed top-0 left-0 w-full h-30 z-50 py-4 flex items-center'>
         <div className='container'>
           <div className='flex items-center justify-between'>
-            <img
-              src={pokeLogoMd}
-              width={150}
-              height={150}
-              alt='Logo pokémon'
-            />
+            <Link to="/">
+              <img
+                src={pokeLogoMd}
+                width={150}
+                height={150}
+                alt='Logo pokémon'
+              />
+            </Link>
 
             <PokeButton
               ref={menuBtnRef}

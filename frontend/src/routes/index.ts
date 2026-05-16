@@ -1,29 +1,33 @@
-/**
- * Node modules
- */
-import { createBrowserRouter } from 'react-router';
+import RootLayout from "@/layout/root-layout";
+import { rootLoader } from "@/loaders/root-loader";
+import Home from "@/pages/home";
+import { pokemonDetailQuery } from "@/queries/pokemon";
+import { createBrowserRouter } from "react-router";
 
-/**
- * Components
- */
-import RootLayout from '@/layout/root-layout';
-import Home from '@/pages/home';
-
-/**
- * Loaders
- */
-import { rootLoader } from '@/loaders/root-loader';
+import { queryClient } from "@/lib/query-client";
+import PokeDetail from "@/components/poke-detail";
 
 const router = createBrowserRouter([
   {
     id: "root",
-    path: '/',
+    path: "/",
     Component: RootLayout,
     loader: rootLoader,
     children: [
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "/pokemon/:id",
+        Component: PokeDetail,
+        loader: async ({ params }) => {
+          const id = params.id as string;
+          const data = await queryClient.ensureQueryData(
+            pokemonDetailQuery(id),
+          );
+          return data;
+        },
       },
     ],
   },

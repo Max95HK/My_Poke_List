@@ -5,7 +5,7 @@ export const navLinks = [
   },
   {
     label: 'I miei pokémon',
-    to: '/pokemon',
+    to: '/team',
   },
   {
     label: 'Pokédex',

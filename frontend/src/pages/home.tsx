@@ -1,8 +1,8 @@
 import usePokemonFilter from "@/hooks/use-pokemon-filter";
 import usePokemonList from "@/hooks/use-pokemon-list";
 import PokeCard from "@/components/poke-card";
-import PokeFilter from "@/components/poke-filter";
 import { PokeCardSkeleton } from "@/components/poke-card-skeleton";
+import PokeFilter from "@/components/poke-filter";
 
 const Home = () => {
   const {
@@ -18,13 +18,12 @@ const Home = () => {
     setType,
   } = usePokemonFilter();
 
-  const { pokemon, error, isLoading, isPlaceholderData, isFetching, totalPages } =
+  const { pokemon, error, isLoading, isFetching, totalPages } =
     usePokemonList(params);
 
   if (error) return <div>Errore: {error.message}</div>;
 
   const showSkeletons = isLoading;
-  const showContent = !isLoading;
 
   return (
     <div>
@@ -48,7 +47,7 @@ const Home = () => {
               <PokeCardSkeleton key={i} />
             ))
           : pokemon.map((poke) => (
-              <PokeCard key={poke.id} pokemon={poke} />
+              <PokeCard key={`${poke.id}-${poke.name}`} pokemon={poke} />
             ))}
       </div>
 
