@@ -1,6 +1,8 @@
 import usePokemonFilter from "@/hooks/use-pokemon-filter";
 import usePokemonList from "@/hooks/use-pokemon-list";
+import PokeCard from "@/components/poke-card";
 import PokeFilter from "@/components/poke-filter";
+import { PokeCardSkeleton } from "@/components/poke-card-skeleton";
 
 const Home = () => {
   const {
@@ -16,10 +18,13 @@ const Home = () => {
     setType,
   } = usePokemonFilter();
 
-  const { pokemon, error, isLoading, isPlaceholderData, totalPages } =
+  const { pokemon, error, isLoading, isPlaceholderData, isFetching, totalPages } =
     usePokemonList(params);
 
   if (error) return <div>Errore: {error.message}</div>;
+
+  const showSkeletons = isLoading;
+  const showContent = !isLoading;
 
   return (
     <div>
@@ -35,30 +40,35 @@ const Home = () => {
       />
 
       <div
-        className={`${isPlaceholderData ? "opacity-50 pointer-events-none" : ""}`}
+        className="my-8 grid gap-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] transition-opacity duration-300"
+        style={{ opacity: isFetching && !isLoading ? 0.5 : 1 }}
       >
-        {isLoading ? (
-          <div>Caricamento...</div>
-        ) : (
-          pokemon.map((poke) => <div key={poke.id}>{poke.name}</div>)
-        )}
+        {showSkeletons
+          ? Array.from({ length: params.limit }, (_, i) => (
+              <PokeCardSkeleton key={i} />
+            ))
+          : pokemon.map((poke) => (
+              <PokeCard key={poke.id} pokemon={poke} />
+            ))}
       </div>
 
-      <button
-        onClick={() => setPage(currentPage - 1)}
-        disabled={currentPage === 1 || isLoading}
-      >
-        precedente
-      </button>
-      <span>
-        {currentPage} / {totalPages}
-      </span>
-      <button
-        onClick={() => setPage(currentPage + 1)}
-        disabled={currentPage === totalPages || isLoading}
-      >
-        successiva
-      </button>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => setPage(currentPage - 1)}
+          disabled={currentPage === 1 || isFetching}
+        >
+          precedente
+        </button>
+        <span>
+          {currentPage} / {totalPages}
+        </span>
+        <button
+          onClick={() => setPage(currentPage + 1)}
+          disabled={currentPage === totalPages || isFetching}
+        >
+          successiva
+        </button>
+      </div>
     </div>
   );
 };

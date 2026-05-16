@@ -7,6 +7,8 @@
   --primary: 255 91% 52%;
   --secondary: 248 93% 72%;
   --border: 263 100% 93%;
+  --card: 250 48% 50%;
+  --dark: 245 22% 21%;
 }
 
 @theme inline {
@@ -16,6 +18,8 @@
   --color-primary: hsl(var(--primary));
   --color-secondary: hsl(var(--secondary));
   --color-border: hsl(var(--border));
+  --color-card: hsl(var(--card));
+  --color-dark: hsl(var(--dark));
 
   --font-sans: 'Saira', sans-serif;
 }

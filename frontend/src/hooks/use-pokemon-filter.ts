@@ -19,13 +19,10 @@ const usePokemonFilter = () => {
 
   const [searchInput, setSearchInput] = useState(params.search ?? "");
   const debouncedSearch = useDebounce(searchInput, 300);
-  const isFirstRender = useRef(true);
+  const initialSearch = useRef(params.search ?? "");
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    if (debouncedSearch === initialSearch.current) return;
     setParams({
       search: debouncedSearch || undefined,
       offset: 0,

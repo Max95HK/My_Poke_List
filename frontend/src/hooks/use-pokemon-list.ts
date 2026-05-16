@@ -13,6 +13,7 @@ const usePokemonList = (params: PokemonParams) => {
     isLoading,
     isPlaceholderData,
     error,
+    isFetching
   } = useQuery({
     queryKey: ["pokemon", params],
     queryFn: async () => {
@@ -22,6 +23,7 @@ const usePokemonList = (params: PokemonParams) => {
       return response.json() as Promise<PokemonListApiResponse>;
     },
     placeholderData: (prevData) => prevData,
+    staleTime: 1000 * 60 * 5,
   });
 
   return {
@@ -31,6 +33,7 @@ const usePokemonList = (params: PokemonParams) => {
     isLoading,
     isPlaceholderData,
     error,
+    isFetching
   };
 };
 
