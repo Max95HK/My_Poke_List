@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import type { Pokemon } from "@/shared/types/pokemon";
 
 import { PokeballIcon } from "./poke-icon";
+import { usePokeContext } from "@/hooks/use-poke-context";
 
 type PokecardProps = {
   pokemon: Pokemon;
@@ -19,6 +20,8 @@ const PokeCard = ({ pokemon }: PokecardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<ModalStep>("choice");
   const navigate = useNavigate();
+
+  const { addToTeam } = usePokeContext()
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
@@ -111,8 +114,9 @@ const PokeCard = ({ pokemon }: PokecardProps) => {
                   </button>
                   <button
                     onClick={() => {
-                      // TODO: logica squadra
                       handleOpenChange(false);
+                      addToTeam(pokemon);
+                      navigate("/team")
                     }}
                     className="flex-1 py-2 rounded-xl bg-accent text-blue-950 font-semibold hover:opacity-90 transition-opacity cursor-pointer"
                   >

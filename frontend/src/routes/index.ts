@@ -6,6 +6,7 @@ import { createBrowserRouter } from "react-router";
 
 import { queryClient } from "@/lib/query-client";
 import PokeDetail from "@/components/poke-detail";
+import PokeTeam from "@/components/poke-team";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
           );
           return data;
         },
+      },
+      {
+        path: "/team",
+        Component: PokeTeam,
       },
     ],
   },

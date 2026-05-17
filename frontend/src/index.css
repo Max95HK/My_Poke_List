@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   --background: 216 80% 88%;
@@ -21,7 +21,7 @@
   --color-card: hsl(var(--card));
   --color-dark: hsl(var(--dark));
 
-  --font-sans: 'Saira', sans-serif;
+  --font-sans: "Saira", sans-serif;
 }
 
 @layer base {
@@ -93,7 +93,7 @@
       }
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         inset: 0;
         border-radius: var(--link-radius);
@@ -120,4 +120,16 @@
 
 @utility container {
   @apply mx-auto px-4 md:px-8 lg:px-16;
+}
+
+@layer components {
+  .filter-field {
+    @apply flex flex-col gap-1 text-dark;
+  }
+
+  .filter-input {
+    @apply rounded-xl border border-border bg-white/60 px-3 py-2
+           shadow-inner outline-none transition
+           focus:ring-2 focus:ring-accent focus:border-accent;
+  }
 }

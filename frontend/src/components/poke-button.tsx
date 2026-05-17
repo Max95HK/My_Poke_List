@@ -2,6 +2,7 @@
  * Node modules
  */
 import { useAnimate } from 'motion/react';
+import { useEffect } from 'react';
 
 type PokeButtonProps = {
   isOpen: boolean;
@@ -12,19 +13,18 @@ type PokeButtonProps = {
 const PokeButton = ({ isOpen, onClick, ref }: PokeButtonProps) => {
   const [scope, animate] = useAnimate();
 
-  const handleClick = async () => {
-    onClick();
-    await animate(
+ useEffect(() => {
+    animate(
       '[data-top]',
-      { translateY: isOpen ? 0 : -22 },
+      { translateY: isOpen ? -22 : 0 },
       { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
     );
-  };
+  }, [isOpen]);
 
   return (
     <button
       ref={scope}
-      onClick={handleClick}
+      onClick={onClick}
       aria-label={isOpen ? 'Chiudi il menu' : 'Apri il menu'}
       className='cursor-pointer'
     >
