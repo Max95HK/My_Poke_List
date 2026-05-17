@@ -45,6 +45,47 @@
       var(--g3) 0 calc(1.73 * var(--s)) var(--c2);
     background-size: calc(2 * var(--s)) calc(3.46 * var(--s));
   }
+
+  select {
+    appearance: base-select;
+  }
+
+  ::picker(select) {
+    appearance: base-select;
+    background-color: hsl(var(--secondary));
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border: 2px solid hsl(var(--border));
+
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--accent)) transparent;
+  }
+
+  ::picker-icon {
+    transition: 150ms ease;
+    cursor: pointer;
+  }
+
+  select:open::picker-icon {
+    rotate: 180deg;
+  }
+
+  select {
+    option {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 1rem;
+      color: white;
+
+      &:checked {
+        background-color: hsl(var(--accent));
+        color: var(--color-blue-950);
+        font-weight: 700;
+      }
+    }
+  }
 }
 
 @layer utilities {
